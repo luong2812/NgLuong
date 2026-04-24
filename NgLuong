@@ -1,11 +1,8 @@
 -- RedZ-Style Blox Fruits Script: Auto Farm, Raid, Fruit Finder, Bounty, God Mode
--- Modified by NgLuong
 -- Features: Auto Chest Collector, Auto Bounty, God Mode, ESP, Teleports, Anti-AFK
 
--- Thay đổi tên biến thư viện thành NgLuong và giữ nguyên link gốc
-local NgLuong = loadstring(game:HttpGet("https://raw.githubusercontent.com/akichan-scripts/BloxfruitsScripts/refs/heads/main/Source.lua"))()
--- Thiết lập giao diện màu đỏ với BloodTheme
-local Window = NgLuong.CreateLib("Blox Fruits - NgLuong Red Edition", "BloodTheme")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Blox Fruits - RedZ Ultimate", "DarkTheme")
 
 local Main = Window:NewTab("Main")
 local MainSection = Main:NewSection("Auto Features")

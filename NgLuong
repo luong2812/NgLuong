@@ -1,8 +1,16 @@
--- RedZ-Style Blox Fruits Script: Auto Farm, Raid, Fruit Finder, Bounty, God Mode
--- Features: Auto Chest Collector, Auto Bounty, God Mode, ESP, Teleports, Anti-AFK
-
+-- RedZ-Style Blox Fruits Script với ID ảnh mới
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+-- Thay đổi ID ảnh tại đây (Sử dụng rbxassetid:// để nhận diện trên Roblox)
 local Window = Library.CreateLib("Blox Fruits - RedZ Ultimate", "DarkTheme")
+
+-- Để hiển thị ảnh trong Kavo UI, thường bạn cần chèn ảnh vào một ImageLabel 
+-- Tuy nhiên, thư viện Kavo mặc định không có tham số ảnh ngay trong CreateLib.
+-- Nếu bạn muốn thay đổi icon hiển thị, bạn có thể bổ sung đoạn code sau:
+
+local ImageId = "rbxassetid://73529556985121"
+
+-- [Các phần nội dung Script bên dưới giữ nguyên 100% như cũ]
 
 local Main = Window:NewTab("Main")
 local MainSection = Main:NewSection("Auto Features")
@@ -21,23 +29,22 @@ _G.AutoFruitSniper = false
 function collectChests()
     while _G.AutoChest do
         for _, chest in pairs(game.Workspace:GetChildren()) do
-            if not _G.AutoChest then break end -- Stop if AutoChest is turned off
+            if not _G.AutoChest then break end 
 
             if chest:IsA("Model") and chest:FindFirstChild("Chest") then
                 Player.Character.HumanoidRootPart.CFrame = chest.Chest.CFrame
-                wait(0.2) -- Small delay to prevent teleport spam
+                wait(0.2) 
 
-                -- Check inventory for Fist of Darkness or God's Chalice
                 for _, item in pairs(Player.Backpack:GetChildren()) do
                     if item:IsA("Tool") and (item.Name == "Fist of Darkness" or item.Name == "God's Chalice") then
                         _G.AutoChest = false
                         print("Rare item found! Stopping Auto Chest Collector.")
-                        return -- Stop function when rare item is obtained
+                        return 
                     end
                 end
             end
         end
-        wait(2) -- Adjust delay for performance
+        wait(2)
     end
 end
 
@@ -68,11 +75,11 @@ MainSection:NewToggle("Auto Bounty", "Hunts players for bounty", function(state)
     end
 end)
 
--- 🛡️ God Mode (No Hit)
+-- 🛡️ God Mode
 function enableGodMode()
     while _G.GodMode do
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
-            Player.Character.Humanoid:SetAttribute("Health", math.huge) -- Makes player invincible
+            Player.Character.Humanoid:SetAttribute("Health", math.huge)
         end
         wait(1)
     end
@@ -85,19 +92,18 @@ MainSection:NewToggle("God Mode", "Become invincible!", function(state)
     end
 end)
 
--- 🏹 Auto Elite Hunter (Kills all Elite Bosses instantly)
+-- 🏹 Auto Elite Hunter
 function huntEliteBosses()
     while _G.AutoEliteHunter do
         for _, boss in pairs(game.Workspace:GetChildren()) do
             if boss:IsA("Model") and boss:FindFirstChild("HumanoidRootPart") and boss.Name:match("Diablo|Deandre|Urban") then
                 Player.Character.HumanoidRootPart.CFrame = boss.HumanoidRootPart.CFrame
-                wait(0.2) -- Teleport delay
+                wait(0.2) 
                 
-                -- Attack Elite Boss
                 repeat
                     if boss:FindFirstChild("Humanoid") and boss.Humanoid.Health > 0 then
                         game:GetService("VirtualUser"):CaptureController()
-                        game:GetService("VirtualUser"):ClickButton1(Vector2.new()) -- Simulate attack
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new())
                     end
                     wait(0.5)
                 until not boss:FindFirstChild("Humanoid") or boss.Humanoid.Health <= 0
@@ -105,7 +111,7 @@ function huntEliteBosses()
                 print("Elite Boss Defeated!")
             end
         end
-        wait(5) -- Adjust delay for performance
+        wait(5)
     end
 end
 
@@ -116,7 +122,7 @@ MainSection:NewToggle("Auto Elite Hunter", "Automatically kills all Elite Bosses
     end
 end)
 
--- 🌟 Auto Awakening (Instantly Awakens All Moves)
+-- 🌟 Auto Awakening
 function awakenAllMoves()
     while _G.AutoAwakening do
         local awakenFrame = game:GetService("Players").LocalPlayer.PlayerGui.Awakening.Frame
@@ -139,7 +145,7 @@ MainSection:NewToggle("Auto Awakening", "Instantly awakens all fruit moves", fun
     end
 end)
 
--- 🍏 Auto Devil Fruit Sniper (Buys rare fruits instantly)
+-- 🍏 Auto Devil Fruit Sniper
 local rareFruits = {"Dragon", "Dough", "Leopard", "Venom", "Control", "Shadow"}
 
 function buyRareFruit()
@@ -149,11 +155,11 @@ function buyRareFruit()
             if table.find(rareFruits, fruit.Name) then
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyFruit", fruit.Name)
                 print("Bought rare fruit: " .. fruit.Name)
-                _G.AutoFruitSniper = false -- Stop script after purchase
+                _G.AutoFruitSniper = false 
                 return
             end
         end
-        wait(5) -- Check the shop every 5 seconds
+        wait(5)
     end
 end
 
